@@ -2,6 +2,45 @@ from openpyxl import load_workbook
 import pickle
 from os.path import isfile, join
 
+# DATA_LABELS = [
+# 'data__coordinates__x',
+# 'data__coordinates__y',
+# 'reference__x',
+# 'reference__y'
+# ]
+
+DATA_LABELS = [
+'data__tagData__gyro__x',
+'data__tagData__gyro__y',
+# 'data__tagData__gyro__z',
+'data__tagData__magnetic__x',
+'data__tagData__magnetic__y',
+# 'data__tagData__magnetic__z',
+'data__tagData__quaternion__x',
+'data__tagData__quaternion__y',
+# 'data__tagData__quaternion__z',
+# 'data__tagData__quaternion__w',
+'data__tagData__linearAcceleration__x',
+'data__tagData__linearAcceleration__y',
+# 'data__tagData__linearAcceleration__z',
+# 'data__tagData__pressure',
+# 'data__tagData__maxLinearAcceleration',
+'data__acceleration__x',
+'data__acceleration__y',
+# 'data__acceleration__z',
+'data__orientation__yaw',
+'data__orientation__roll',
+'data__orientation__pitch',
+# 'data__metrics__latency',
+# 'data__metrics__rates__update',
+# 'data__metrics__rates__success',
+'data__coordinates__x',
+'data__coordinates__y',
+# 'data__coordinates__z',
+# 'errorCode',
+'reference__x',
+'reference__y']
+
 def smart_read(files, file_name):
 
     # check if file exists
@@ -82,5 +121,16 @@ def read_xlsx(file_name):
     sheet = wb.active
     rows = sheet.rows
     keys = [cell.value for cell in next(rows)]
-    data = [{keys[i]: cell.value for i, cell in enumerate(row)} for row in rows]
+    # data = [{keys[i]: cell.value for i, cell in enumerate(row)} for row in rows]
+    
+    data = []
+    for row in rows:
+        data.append({})
+        for i, cell in enumerate(row):
+            if keys[i] in DATA_LABELS:
+                data[-1][keys[i]] = cell.value
+            # if keys[i] not in [None, "Unnamed: 0", "version", "tagId", "data__anchorData"]:
+            #     data[-1][keys[i]] = cell.value
+                
+
     return data
