@@ -4,6 +4,7 @@ from classes.xlsxReader import read_data_from_file
 import numpy as np
 from sklearn import metrics
 from sklearn.neural_network import MLPRegressor
+import matplotlib.pyplot as plt
 
 data = read_data_from_file("data.pkl")
 
@@ -36,42 +37,56 @@ def stats(train, target):
 print("#############################")
 print("# Static:")
 print("amount of data:", len(static_train))
-predicts = clf.predict(static_train)
+static_read = []
+for i in range(len(static_train)):
+    l = len(static_train[i])
+    # print(static_train[i])
+    # print([static_train[i][l-3], static_train[i][l-2]])
+    static_read.append([static_train[i][l-3], static_train[i][l-2]])
+static_predicts = clf.predict(static_train)
 static_target = np.array(static_target)
-stats(predicts, static_target)
+stats(static_predicts, static_target)
 
-# print("###################")
-# print("read:")
-# print([static_train[0][-3], static_train[0][-2]])
-# print("predict:")
-# print(clf.predict([static_train[0]]))
-# print("target:")
-# print(static_target[0])
 
 ###############################################################################
 # Dynamiczne
 ###############################################################################
 
+dynamic_read = []
+for i in range(len(dynamic_train)):
+    l = len(dynamic_train[i])
+    # print(dynamic_train[i])
+    # print([dynamic_train[i][l-3], dynamic_train[i][l-2]])
+    dynamic_read.append([dynamic_train[i][l-3], dynamic_train[i][l-2]])
 
-predicts = clf.predict(dynamic_train)
+dynamic_predicts = clf.predict(dynamic_train)
 dynamic_target = np.array(dynamic_target)
-# targets = np.array(dynamic_target)
-# diff = np.subtract(predicts, targets)
-# squar = np.square(diff)
-# mse = squar.mean()
 
 print("\n######################################")
 print("# Dynamic:")
 print("amount of data:", len(dynamic_train))
-stats(predicts, dynamic_target)
+stats(dynamic_predicts, dynamic_target)
 
-# print("Dynamiczne wyniki:")
+# rotate all data 90 degrees
+dynamic_read = np.rot90(dynamic_read)
+dynamic_predicts = np.rot90(dynamic_predicts)
+dynamic_target = np.rot90(dynamic_target)
 
 
-# # print("###################")
-# print("read:")
-# print([dynamic_train[0][-3], dynamic_train[0][-2]])
-# print("predict:")
-# print(clf.predict([dynamic_train[0]]))
-# print("target:")
-# print(dynamic_target[0])
+plt.title("Dynamic")
+plt.scatter(dynamic_predicts[0], dynamic_predicts[1],
+            c='red', label='predicted', s=1)
+plt.scatter(dynamic_read[0], dynamic_read[1], c='blue', label='read', s=1)
+plt.scatter(dynamic_target[0], dynamic_target[1],
+            c='green', label='target', s=1)
+plt.legend()
+plt.savefig("dynamic.png")
+
+plt.title("Static")
+plt.scatter(static_predicts[0], static_predicts[1],
+            c='red', label='predicted', s=1)
+plt.scatter(static_read[0], static_read[1], c='blue', label='read', s=1)
+plt.scatter(static_target[0], static_target[1],
+            c='green', label='target', s=1)
+# plt.legend()
+plt.savefig("static.png")
