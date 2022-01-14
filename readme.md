@@ -55,3 +55,7 @@ None, \
 'errorCode', \
 'reference__x', \
 'reference__y'
+
+## uruchamianie
+> `py ai.py` - do utworzenia pliku z danymi i uczenia sieci
+> `py stats.py` - do wygenerowania statystyk
