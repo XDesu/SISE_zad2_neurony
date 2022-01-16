@@ -20,8 +20,12 @@ dynamic_train, dynamic_target = get_verification_data(data)
 
 # layers = (17, 14)  # najlepsze wizualnie i mean percentage error
 layers = (15)        # identyczne jak wyżej
+# clf = MLPRegressor(
+#     solver='adam', alpha=1e-4, tol=1e-5, hidden_layer_sizes=layers,
+#     random_state=1, max_iter=1000, verbose=True, epsilon=1e-8,
+#     activation='relu', batch_size=300)
 clf = MLPRegressor(
-    solver='adam', alpha=1e-4, tol=1e-5, hidden_layer_sizes=layers,
+    solver='lbfgs', alpha=1e-4, tol=1e-5, hidden_layer_sizes=layers,
     random_state=1, max_iter=1000, verbose=True, epsilon=1e-8,
     activation='relu', batch_size=300)
 
