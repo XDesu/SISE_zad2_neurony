@@ -81,6 +81,9 @@ dynamic_read_rotated = np.rot90(dynamic_read)
 dynamic_predicts_rotated = np.rot90(dynamic_predicts)
 dynamic_target_rotated = np.rot90(dynamic_target)
 
+static_read_rotated = np.rot90(static_read)
+static_predicts_rotated = np.rot90(static_predicts)
+static_target_rotated = np.rot90(static_target)
 
 plt.title("Dynamic")
 plt.scatter(
@@ -96,13 +99,21 @@ plt.xlabel("x", loc='right')
 
 plt.savefig(OUTPUT_DIR + "/dynamic.png")
 
+plt.clf()
+
 
 plt.title("Static")
-plt.scatter(static_read[0], static_read[1], c='blue', label='read', s=1)
-plt.scatter(static_predicts[0], static_predicts[1],
+plt.scatter(static_predicts_rotated[0], static_predicts_rotated[1],
             c='red', label='predicted', s=1)
-plt.scatter(static_target[0], static_target[1],
+plt.scatter(
+    static_read_rotated[0], static_read_rotated[1], c='blue', label='read', s=1)
+plt.scatter(static_target_rotated[0], static_target_rotated[1],
             c='green', label='target', s=1)
+
+plt.legend()
+plt.ylabel("y", loc='top')
+plt.xlabel("x", loc='right')
+
 plt.savefig(OUTPUT_DIR + "/static.png")
 
 
